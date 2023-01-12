@@ -18,6 +18,7 @@ import PlutusTx.Prelude hiding (Semigroup ((<>)), unless, (.))
 import Plutus.V1.Ledger.Contexts (ScriptContext)
 import Plutus.Script.Utils.Typed qualified as Scripts
 
+--we will define datum & redeemer data here to meet the validator requirements
 data UnlockByEmpWithoutDeadLineRedeemer
   = UnlockByEmpWithoutDeadLineRedeemer
       { 

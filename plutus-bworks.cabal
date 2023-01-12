@@ -89,7 +89,7 @@ executable plutus-bworks
   -- Local components
   build-depends:  plutus-bworks
 
-  -- Other IOG dependencies
+  -- IOG dependencies
   build-depends:  cardano-api >=1.35
 
   -- Non-IOG dependencies
