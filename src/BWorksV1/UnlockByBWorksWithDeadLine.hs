@@ -17,24 +17,37 @@ import PlutusTx qualified
 import PlutusTx.Prelude hiding (Semigroup ((<>)), unless, (.))
 import Plutus.V1.Ledger.Contexts (ScriptContext)
 import Plutus.Script.Utils.Typed qualified as Scripts
+import PlutusTx.Prelude qualified as P
+import Plutus.V1.Ledger.Interval as Interval
 
---we will define datum & redeemer data here to meet the validator requirements
+
 data UnlockByBWorksWithDeadLineRedeemer
   = UnlockByBWorksWithDeadLineRedeemer
       { 
       } deriving (Prelude.Eq, Show)
+
 data UnlockByBWorksWithDeadLineDatum
   = UnlockByBWorksWithDeadLineDatum
-      { 
+       { 
+       jobDeadLine    :: Plutus.POSIXTime
+      , unlockSignature   :: [Plutus.PubKeyHash]
       } deriving (Prelude.Eq, Show)
 
 PlutusTx.unstableMakeIsData ''UnlockByBWorksWithDeadLineRedeemer
 PlutusTx.unstableMakeIsData ''UnlockByBWorksWithDeadLineDatum
 
+
 {-# INLINABLE mkValidator #-}
---we will add validator logics here which verify the transaction is valid if it is signed by bWorks
+--we will add validator logics here to verify the transaction is valid if it is signed by bWorks
 mkValidator :: UnlockByBWorksWithDeadLineDatum -> UnlockByBWorksWithDeadLineRedeemer ->  ScriptContext -> Bool
-mkValidator (UnlockByBWorksWithDeadLineDatum {}) (UnlockByBWorksWithDeadLineRedeemer {}) scriptContext = True
+mkValidator (UnlockByBWorksWithDeadLineDatum jobDeadLine unlockSignature) (UnlockByBWorksWithDeadLineRedeemer ) scriptContext = 
+  Plutus.txInfoValidRange txInfo `Interval.contains` jobDeadLineRange P.&&
+  Plutus.txInfoSignatories txInfo P.== unlockSignature
+  where  
+    jobDeadLineRange:: Plutus.POSIXTimeRange
+    jobDeadLineRange = Interval.from jobDeadLine
+    txInfo :: Plutus.TxInfo
+    txInfo = Plutus.scriptContextTxInfo scriptContext
 
 validator :: Plutus.Validator
 validator = Plutus.mkValidatorScript
