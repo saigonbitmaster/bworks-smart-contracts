@@ -26,16 +26,21 @@ data UnlockByEmpWithoutDeadLineRedeemer
 
 data UnlockByEmpWithoutDeadLineDatum
   = UnlockByEmpWithoutDeadLineDatum
-      { 
+       { 
+       unlockSignature   :: [Plutus.PubKeyHash]
       } deriving (Prelude.Eq, Show)
 
 PlutusTx.unstableMakeIsData ''UnlockByEmpWithoutDeadLineDatum
 PlutusTx.unstableMakeIsData ''UnlockByEmpWithoutDeadLineRedeemer
 
 {-# INLINABLE mkValidator #-}
---we will add validator logics here which verify the transaction is valid if it is signed by emp
+--validator logics here which verify the transaction is valid if it is signed by emp
 mkValidator :: UnlockByEmpWithoutDeadLineDatum -> UnlockByEmpWithoutDeadLineRedeemer ->  ScriptContext -> Bool
-mkValidator (UnlockByEmpWithoutDeadLineDatum {}) (UnlockByEmpWithoutDeadLineRedeemer {}) scriptContext = True
+mkValidator (UnlockByEmpWithoutDeadLineDatum unlockSignature) (UnlockByEmpWithoutDeadLineRedeemer ) scriptContext = 
+  Plutus.txInfoSignatories txInfo P.== unlockSignature
+  where  
+    txInfo :: Plutus.TxInfo
+    txInfo = Plutus.scriptContextTxInfo scriptContext
 
 validator :: Plutus.Validator
 validator = Plutus.mkValidatorScript

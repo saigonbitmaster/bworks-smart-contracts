@@ -38,7 +38,8 @@ PlutusTx.unstableMakeIsData ''UnlockByBWorksWithDeadLineDatum
 
 
 {-# INLINABLE mkValidator #-}
---we will add validator logics here to verify the transaction is valid if it is signed by bWorks
+--validator logics here to verify the transaction is valid if it is signed by bWorks
+--we may consider to hardcode the bworks wallet public key here to verify if the transaction is valid
 mkValidator :: UnlockByBWorksWithDeadLineDatum -> UnlockByBWorksWithDeadLineRedeemer ->  ScriptContext -> Bool
 mkValidator (UnlockByBWorksWithDeadLineDatum jobDeadLine unlockSignature) (UnlockByBWorksWithDeadLineRedeemer ) scriptContext = 
   Plutus.txInfoValidRange txInfo `Interval.contains` jobDeadLineRange P.&&

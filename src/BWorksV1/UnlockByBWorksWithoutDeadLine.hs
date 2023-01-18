@@ -26,16 +26,22 @@ data UnlockByBWorksWithOutDeadLineRedeemer
 
 data UnlockByBWorksWithOutDeadLineDatum
   = UnlockByBWorksWithOutDeadLineDatum
-      { 
+       { 
+       unlockSignature   :: [Plutus.PubKeyHash]
       } deriving (Prelude.Eq, Show)
 
 PlutusTx.unstableMakeIsData ''UnlockByBWorksWithOutDeadLineDatum
 PlutusTx.unstableMakeIsData ''UnlockByBWorksWithOutDeadLineRedeemer
 
 {-# INLINABLE mkValidator #-}
---we will add validator logics here which verify the transaction is valid if it is signed by bWorks
+--validator logics here which verify the transaction is valid if it is signed by bWorks
 mkValidator :: UnlockByBWorksWithOutDeadLineDatum -> UnlockByBWorksWithOutDeadLineRedeemer ->  ScriptContext -> Bool
-mkValidator (UnlockByBWorksWithOutDeadLineDatum {}) (UnlockByBWorksWithOutDeadLineRedeemer {}) scriptContext = True
+mkValidator (UnlockByBWorksWithOutDeadLineDatum unlockSignature) (UnlockByBWorksWithOutDeadLineRedeemer ) scriptContext = 
+  Plutus.txInfoSignatories txInfo P.== unlockSignature
+  where  
+    txInfo :: Plutus.TxInfo
+    txInfo = Plutus.scriptContextTxInfo scriptContext
+
 
 validator :: Plutus.Validator
 validator = Plutus.mkValidatorScript
