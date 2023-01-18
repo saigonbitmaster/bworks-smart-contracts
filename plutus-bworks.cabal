@@ -52,6 +52,8 @@ library
     BWorksV1.UnlockByBWorksWithDeadLine
     BWorksV1.UnlockByEmpWithDeadLine
     BWorksV1.UnlockByEmpWithoutDeadLine
+    BWorksV1.SimpleToTest
+
 
   build-depends:   plutus-script-utils >=1.0.0
 
