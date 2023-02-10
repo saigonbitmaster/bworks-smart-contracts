@@ -28,7 +28,7 @@ data UnlockByEmpWithDeadLineDatum
   = UnlockByEmpWithDeadLineDatum
        { 
        jobDeadLine    :: Plutus.POSIXTime
-      , unlockSignature   :: [Plutus.PubKeyHash]
+      , unlockSignature   :: Plutus.PubKeyHash
       } deriving (Prelude.Eq, Show)
 
 PlutusTx.unstableMakeIsData ''UnlockByEmpWithDeadLineDatum

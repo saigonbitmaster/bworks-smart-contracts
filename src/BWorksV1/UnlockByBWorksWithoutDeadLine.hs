@@ -27,7 +27,7 @@ data UnlockByBWorksWithOutDeadLineRedeemer
 data UnlockByBWorksWithOutDeadLineDatum
   = UnlockByBWorksWithOutDeadLineDatum
        { 
-       unlockSignature   :: [Plutus.PubKeyHash]
+       unlockSignature   :: Plutus.PubKeyHash
       } deriving (Prelude.Eq, Show)
 
 PlutusTx.unstableMakeIsData ''UnlockByBWorksWithOutDeadLineDatum

@@ -27,7 +27,7 @@ data UnlockByEmpWithoutDeadLineRedeemer
 data UnlockByEmpWithoutDeadLineDatum
   = UnlockByEmpWithoutDeadLineDatum
        { 
-       unlockSignature   :: [Plutus.PubKeyHash]
+       unlockSignature   :: Plutus.PubKeyHash
       } deriving (Prelude.Eq, Show)
 
 PlutusTx.unstableMakeIsData ''UnlockByEmpWithoutDeadLineDatum
