@@ -1,6 +1,7 @@
 cabal-version:      3.0
 name:               plutus-bworks
 version:            1.0.0.0
+author:             Thang Tran
 description:        Create Plutus scripts for bWorks smart contracts.
 build-type:         Simple
 
@@ -53,7 +54,10 @@ library
     BWorksV1.UnlockByEmpWithDeadLine
     BWorksV1.UnlockByEmpWithoutDeadLine
     BWorksV1.SimpleToTest
-
+    BWorksV2.UnlockByBWorksWithOutDeadLine
+    BWorksV2.UnlockByBWorksWithDeadLine
+    BWorksV2.UnlockByEmpWithDeadLine
+    BWorksV2.UnlockByEmpWithoutDeadLine
 
   build-depends:   plutus-script-utils >=1.0.0
 
