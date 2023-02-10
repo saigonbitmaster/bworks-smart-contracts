@@ -37,11 +37,10 @@ PlutusTx.unstableMakeIsData ''UnlockByBWorksWithOutDeadLineRedeemer
 --validator logics here which verify the transaction is valid if it is signed by bWorks
 mkValidator :: UnlockByBWorksWithOutDeadLineDatum -> UnlockByBWorksWithOutDeadLineRedeemer ->  ScriptContext -> Bool
 mkValidator (UnlockByBWorksWithOutDeadLineDatum unlockSignature) (UnlockByBWorksWithOutDeadLineRedeemer ) scriptContext = 
-  Plutus.txInfoSignatories txInfo P.== unlockSignature
+  txSignedBy txInfo unlockSignature
   where  
     txInfo :: Plutus.TxInfo
     txInfo = Plutus.scriptContextTxInfo scriptContext
-
 
 validator :: Plutus.Validator
 validator = Plutus.mkValidatorScript

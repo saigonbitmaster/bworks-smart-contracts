@@ -39,7 +39,7 @@ PlutusTx.unstableMakeIsData ''UnlockByEmpWithDeadLineRedeemer
 mkValidator :: UnlockByEmpWithDeadLineDatum -> UnlockByEmpWithDeadLineRedeemer ->  ScriptContext -> Bool
 mkValidator (UnlockByEmpWithDeadLineDatum jobDeadLine unlockSignature) (UnlockByEmpWithDeadLineRedeemer ) scriptContext = 
   Plutus.txInfoValidRange txInfo `Interval.contains` jobDeadLineRange P.&&
-  Plutus.txInfoSignatories txInfo P.== unlockSignature
+  txSignedBy txInfo unlockSignature
   where  
     jobDeadLineRange:: Plutus.POSIXTimeRange
     jobDeadLineRange = Interval.from jobDeadLine

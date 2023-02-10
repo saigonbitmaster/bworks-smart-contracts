@@ -30,7 +30,7 @@ data UnlockByBWorksWithDeadLineDatum
   = UnlockByBWorksWithDeadLineDatum
        { 
        jobDeadLine    :: Plutus.POSIXTime
-      , unlockSignature   :: [Plutus.PubKeyHash]
+      , unlockSignature   :: Plutus.PubKeyHash
       } deriving (Prelude.Eq, Show)
 
 PlutusTx.unstableMakeIsData ''UnlockByBWorksWithDeadLineRedeemer
@@ -43,7 +43,7 @@ PlutusTx.unstableMakeIsData ''UnlockByBWorksWithDeadLineDatum
 mkValidator :: UnlockByBWorksWithDeadLineDatum -> UnlockByBWorksWithDeadLineRedeemer ->  ScriptContext -> Bool
 mkValidator (UnlockByBWorksWithDeadLineDatum jobDeadLine unlockSignature) (UnlockByBWorksWithDeadLineRedeemer ) scriptContext = 
   Plutus.txInfoValidRange txInfo `Interval.contains` jobDeadLineRange P.&&
-  Plutus.txInfoSignatories txInfo P.== unlockSignature
+  txSignedBy txInfo unlockSignature
   where  
     jobDeadLineRange:: Plutus.POSIXTimeRange
     jobDeadLineRange = Interval.from jobDeadLine

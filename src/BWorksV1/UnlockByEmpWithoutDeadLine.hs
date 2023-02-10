@@ -37,7 +37,10 @@ PlutusTx.unstableMakeIsData ''UnlockByEmpWithoutDeadLineRedeemer
 --validator logics here which verify the transaction is valid if it is signed by emp
 mkValidator :: UnlockByEmpWithoutDeadLineDatum -> UnlockByEmpWithoutDeadLineRedeemer ->  ScriptContext -> Bool
 mkValidator (UnlockByEmpWithoutDeadLineDatum unlockSignature) (UnlockByEmpWithoutDeadLineRedeemer ) scriptContext = 
-  Plutus.txInfoSignatories txInfo P.== unlockSignature
+  txSignedBy txInfo unlockSignature
+  where  
+    txInfo :: Plutus.TxInfo
+    txInfo = Plutus.scriptContextTxInfo scriptContext
   where  
     txInfo :: Plutus.TxInfo
     txInfo = Plutus.scriptContextTxInfo scriptContext
