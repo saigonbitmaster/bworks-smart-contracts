@@ -2,7 +2,7 @@
 #zsh getFromScript scriptName datumValue redeemerValue walletName
 #zsh getFromScript simpleToTestScript secret.json wallet01
 
-source ./functions.sh
+source ./utils.sh
 
 SCRIPT_NAME=${1}
 SCRIPT_FILE=../generated-plutus-scripts/bWorksV1/${SCRIPT_NAME}.plutus

@@ -1,7 +1,7 @@
 #!/bin/zsh
 #zsh payToScript valueInLovelace scriptName datum walletName
 #zsh payToScript.sh  3000000 simpleToTestScript secret.json wallet01
-source ./functions.sh
+source ./utils.sh
 
 getInputTx $4
 
